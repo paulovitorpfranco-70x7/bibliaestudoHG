@@ -1,0 +1,12 @@
+
+{
+  "bookId": 1,
+  "chapter": 2,
+  "verses": [
+    { "number": 1, "text": "Assim os céus, a terra e todo o seu exército foram acabados." },
+    { "number": 2, "text": "E havendo Deus acabado no dia sétimo a obra que fizera, descansou no sétimo dia de toda a sua obra, que tinha feito." },
+    { "number": 3, "text": "E abençoou Deus o dia sétimo, and o santificou; porque nele descansou de toda a sua obra que Deus criara e fizera." },
+    { "number": 4, "text": "Estas são as origens dos céus e da terra, quando foram criados; no dia em que o Senhor Deus fez a terra e os céus," },
+    { "number": 5, "text": "E toda a planta do campo que ainda não estava na terra, e toda a erva do campo que ainda não brotava; porque ainda o Senhor Deus não tinha feito chover sobre a terra, e não havia homem para lavrar a terra." }
+  ]
+}

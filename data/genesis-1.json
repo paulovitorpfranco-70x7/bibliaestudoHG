@@ -1,0 +1,20 @@
+
+{
+  "bookId": 1,
+  "chapter": 1,
+  "verses": [
+    {
+      "number": 1,
+      "text": "No princípio, criou Deus os céus e a terra.",
+      "strongs": [ { "position": 1, "code": "H7225" }, { "position": 2, "code": "H1254" }, { "position": 3, "code": "H430" }, { "position": 5, "code": "H8064" }, { "position": 8, "code": "H776" } ]
+    },
+    {
+      "number": 2,
+      "text": "E a terra era sem forma e vazia; e havia trevas sobre a face do abismo; e o Espírito de Deus se movia sobre a face das águas.",
+      "strongs": [ { "position": 2, "code": "H776" }, { "position": 17, "code": "H7307" }, { "position": 19, "code": "H430" } ]
+    },
+    { "number": 3, "text": "E disse Deus: Haja luz. E houve luz.", "strongs": [ { "position": 2, "code": "H559" }, { "position": 3, "code": "H430" }, { "position": 5, "code": "H216" } ] },
+    { "number": 4, "text": "E viu Deus que era boa a luz; e fez Deus separação entre a luz e as trevas." },
+    { "number": 5, "text": "E Deus chamou à luz Dia; e às trevas chamou Noite. E foi a tarde e a manhã, o dia primeiro." }
+  ]
+}

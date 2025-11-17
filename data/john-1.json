@@ -1,0 +1,12 @@
+
+{
+  "bookId": 43,
+  "chapter": 1,
+  "verses": [
+    { "number": 1, "text": "No princípio era o Verbo, e o Verbo estava com Deus, e o Verbo era Deus.", "strongs": [{"position": 2, "code": "G746"}, {"position": 5, "code": "G3056"}] },
+    { "number": 2, "text": "Ele estava no princípio com Deus." },
+    { "number": 3, "text": "Todas as coisas foram feitas por ele, e sem ele nada do que foi feito se fez." },
+    { "number": 4, "text": "Nele estava a vida, e a vida era a luz dos homens." },
+    { "number": 5, "text": "E a luz resplandece nas trevas, e as trevas não a compreenderam." }
+  ]
+}

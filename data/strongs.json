@@ -1,0 +1,13 @@
+
+{
+  "H430": { "code": "H430", "language": "hebrew", "original": "אֱלֹהִים", "transliteration": "Elohim", "pronunciation": "el-o-heem'", "definition": "Deus, deuses (plural de majestade). Usado para o Deus verdadeiro de Israel, também referindo-se a deuses pagãos, juízes ou anjos em contextos específicos.", "occurrences": { "total": 2606, "old": 2606, "new": 0 }, "relatedVerses": [{ "reference": "Gênesis 1:1", "text": "No princípio, criou Deus..." }] },
+  "H7225": { "code": "H7225", "language": "hebrew", "original": "רֵאשִׁית", "transliteration": "re'shiyth", "pronunciation": "ray-sheeth'", "definition": "Começo, primeiro, início. O princípio de algo, seja temporal ou espacial.", "occurrences": { "total": 51, "old": 51, "new": 0 } },
+  "H1254": { "code": "H1254", "language": "hebrew", "original": "בָּרָא", "transliteration": "bara'", "pronunciation": "baw-raw'", "definition": "Criar, fazer. Sempre usado com Deus como sujeito, indicando criação divina ex nihilo (do nada).", "occurrences": { "total": 54, "old": 54, "new": 0 } },
+  "H8064": { "code": "H8064", "language": "hebrew", "original": "שָׁמַיִם", "transliteration": "shamayim", "pronunciation": "shaw-mah'-yim", "definition": "Céus, firmamento.", "occurrences": { "total": 420, "old": 420, "new": 0 } },
+  "H776": { "code": "H776", "language": "hebrew", "original": "אֶרֶץ", "transliteration": "erets", "pronunciation": "eh'-rets", "definition": "Terra, país, chão.", "occurrences": { "total": 2504, "old": 2504, "new": 0 } },
+  "H7307": { "code": "H7307", "language": "hebrew", "original": "רוּחַ", "transliteration": "ruach", "pronunciation": "roo'-akh", "definition": "Espírito, vento, fôlego.", "occurrences": { "total": 378, "old": 378, "new": 0 } },
+  "H559": { "code": "H559", "language": "hebrew", "original": "אָמַר", "transliteration": "amar", "pronunciation": "aw-mar'", "definition": "Dizer, falar, proferir.", "occurrences": { "total": 5316, "old": 5283, "new": 33 } },
+  "H216": { "code": "H216", "language": "hebrew", "original": "אוֹר", "transliteration": "or", "pronunciation": "ore", "definition": "Luz, iluminação.", "occurrences": { "total": 122, "old": 122, "new": 0 } },
+  "G746": { "code": "G746", "language": "greek", "original": "ἀρχή", "transliteration": "archē", "pronunciation": "ar-khay'", "definition": "Começo, princípio, origem; também pode se referir a governantes ou autoridades.", "occurrences": { "total": 55, "old": 0, "new": 55 } },
+  "G3056": { "code": "G3056", "language": "greek", "original": "λόγος", "transliteration": "logos", "pronunciation": "log'-os", "definition": "Palavra, verbo, dito, razão, mensagem. Um termo com profundo significado teológico, especialmente no Evangelho de João.", "occurrences": { "total": 330, "old": 0, "new": 330 } }
+}
