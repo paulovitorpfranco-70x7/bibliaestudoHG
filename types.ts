@@ -5,6 +5,10 @@ export interface Book {
   chapterCount: number;
 }
 
+export interface BookDefinition extends Book {
+  fileName: string;
+}
+
 export interface StrongReference {
   position: number;
   code: string;
