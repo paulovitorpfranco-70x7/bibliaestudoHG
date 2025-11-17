@@ -2,7 +2,20 @@
 import React from 'react';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { db } from '../services/database';
-import { IconBookOpen, IconUser, IconMenu, IconSearch, IconSun, IconMoon, IconShare2, IconHeart, IconSparkles, IconCalendar, IconFileText } from '../constants';
+import {
+  IconBookOpen,
+  IconUser,
+  IconMenu,
+  IconSearch,
+  IconSun,
+  IconMoon,
+  IconShare2,
+  IconHeart,
+  IconSparkles,
+  IconCalendar,
+  IconFileText,
+  IconFlame,
+} from '../constants';
 
 interface HomeScreenProps {
   onNavigateToReader: () => void;
@@ -113,6 +126,32 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ onNavigateToReader, onNavigateT
               {noteCount !== undefined ? `${noteCount} anotaç${noteCount === 1 ? 'ão' : 'ões'}` : 'Carregando...'}
             </p>
             <div className={`text-sm ${darkMode ? 'text-gray-500' : 'text-gray-500'}`}>Crie e gerencie seus estudos</div>
+          </button>
+
+          <button
+            className={`${darkMode ? 'bg-gray-800 hover:bg-gray-700/50' : 'bg-white hover:shadow-xl'} rounded-2xl p-6 shadow-lg hover:-translate-y-2 transition-all duration-300 group text-left`}
+          >
+            <div className="w-16 h-16 bg-gradient-to-r from-fuchsia-500 via-rose-500 to-amber-500 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+              <IconFlame className="w-8 h-8 text-white" />
+            </div>
+            <h3 className={`text-xl font-bold mb-2 ${darkMode ? 'text-white' : 'text-gray-800'}`}>Dons Espirituais</h3>
+            <p className={`${darkMode ? 'text-gray-400' : 'text-gray-600'} mb-4`}>
+              Descubra e estude os dons listados em 1 Coríntios 12.
+            </p>
+            <div className="flex flex-wrap gap-2">
+              {['Sabedoria', 'Profecia', 'Cura'].map((gift) => (
+                <span
+                  key={gift}
+                  className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                    darkMode
+                      ? 'bg-white/5 text-pink-200 border border-white/10'
+                      : 'bg-rose-50 text-rose-600 border border-rose-100'
+                  }`}
+                >
+                  {gift}
+                </span>
+              ))}
+            </div>
           </button>
         </div>
       </main>

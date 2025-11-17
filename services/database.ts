@@ -1,9 +1,11 @@
 // FIX: Separated the Dexie default import from the named type import to resolve subclassing errors.
 import Dexie from 'dexie';
 import type { Table } from 'dexie';
-import type { Book, Chapter, StrongEntry, Note } from '../types';
+import type { Book, BookDefinition, Chapter, StrongEntry, Note } from '../types';
+import booksJson from '../data/books.json';
+import strongsJson from '../data/strongs.json';
+import { loadArcBibleChapters } from './arcSource';
 
-type BookWithFileName = Book & { fileName: string };
 type ProgressCallback = (percentage: number, bookName: string) => void;
 
 export class BibleDB extends Dexie {
@@ -30,43 +32,39 @@ export class BibleDB extends Dexie {
   async populate(onProgress: ProgressCallback): Promise<void> {
     console.log("Starting incremental database population...");
     try {
-      const [allBooks, strongsData] = await Promise.all([
-        fetch('/data/books.json').then(res => res.json()) as Promise<BookWithFileName[]>,
-        fetch('/data/strongs.json').then(res => res.json())
-      ]);
+      const allBooks = booksJson as BookDefinition[];
+      const strongsToSeed: StrongEntry[] = Object.values(strongsJson as Record<string, StrongEntry>);
 
-      const strongsToSeed: StrongEntry[] = Object.values(strongsData);
+      onProgress(0, 'Baixando tradução ARC');
+      const arcChaptersMap = await loadArcBibleChapters(allBooks);
 
-      // Populate books and strongs first
       await this.transaction('rw', this.books, this.strongs, async () => {
+        await this.books.clear();
+        await this.strongs.clear();
+
         await this.books.bulkAdd(allBooks);
         await this.strongs.bulkAdd(strongsToSeed);
       });
-      console.log("Books and Strong's dictionary populated.");
-      
-      onProgress(0, 'livros');
 
-      // Populate chapters incrementally
+      console.log("Books and Strong's dictionary populated.");
+      onProgress(0, 'Preparando capítulos');
+
+      await this.chapters.clear();
+
       for (let i = 0; i < allBooks.length; i++) {
         const book = allBooks[i];
-        const percentage = Math.round(((i + 1) / allBooks.length) * 100);
+        const bookChapters = arcChaptersMap.get(book.id);
 
-        if (book.fileName) {
-          try {
-            const response = await fetch(`/data/${book.fileName}`);
-            if (!response.ok) {
-              throw new Error(`File not found: ${book.fileName}`);
-            }
-            const bookChapters: Chapter[] = await response.json();
-            await this.chapters.bulkAdd(bookChapters);
-             console.log(`Successfully loaded ${book.name}`);
-          } catch (error) {
-            console.warn(`Could not load book data for ${book.name}:`, (error as Error).message);
-          }
+        if (!bookChapters || bookChapters.length === 0) {
+          console.warn(`Nenhum capítulo encontrado para ${book.name}.`);
+          continue;
         }
-        
+
+        await this.chapters.bulkAdd(bookChapters);
+        console.log(`Successfully loaded ${book.name}`);
+
+        const percentage = Math.round(((i + 1) / allBooks.length) * 100);
         onProgress(percentage, book.name);
-         // A small delay to allow UI to update
         await new Promise(resolve => setTimeout(resolve, 20));
       }
 
