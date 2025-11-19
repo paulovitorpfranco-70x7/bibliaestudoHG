@@ -1,9 +1,9 @@
 
-import React, { useState, useMemo } from 'react';
-import { useLiveQuery } from 'dexie-react-hooks';
-import { db } from '../services/database';
-import type { Book } from '../types';
-import { IconX, IconCheck } from '../constants';
+import React, { useMemo, useState } from 'react';
+import type { Book } from '@/domain/models/bible';
+import { IconX, IconCheck } from '@/ui/icons/IconSet';
+import { useLiveQuery } from '@/data/datasources/BibleDexieDatasource';
+import { useBibleRepository } from '@/shared/hooks/useBibleRepository';
 
 interface BookChapterSelectorProps {
   currentBookId: number;
@@ -17,7 +17,9 @@ const BookChapterSelector: React.FC<BookChapterSelectorProps> = ({ currentBookId
   const [view, setView] = useState<'books' | 'chapters'>('books');
   const [testament, setTestament] = useState<'old' | 'new'>('old');
 
-  const books = useLiveQuery(() => db.books.where('testament').equals(testament).toArray(), [testament], []);
+  const repository = useBibleRepository();
+  const bookQuery = useMemo(() => repository.watchBooksByTestament(testament), [repository, testament]);
+  const books = useLiveQuery(bookQuery, [bookQuery], []);
 
   const handleBookClick = (book: Book) => {
     setSelectedBook(book);

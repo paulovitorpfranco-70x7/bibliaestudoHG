@@ -1,9 +1,8 @@
 
-import React, { useState, useEffect } from 'react';
-import { useLiveQuery } from 'dexie-react-hooks';
-import { db } from '../services/database';
-import type { Note } from '../types';
-import { IconChevronLeft, IconPlus, IconFileText, IconTrash2, IconSettings } from '../constants';
+import React from 'react';
+import type { Note } from '@/domain/models/bible';
+import { IconChevronLeft, IconPlus, IconFileText, IconTrash2, IconSettings } from '@/ui/icons/IconSet';
+import { useNotesController } from '@/features/notes/hooks/useNotesController';
 
 interface NotesScreenProps {
   onNavigateHome: () => void;
@@ -11,65 +10,23 @@ interface NotesScreenProps {
 }
 
 const NotesScreen: React.FC<NotesScreenProps> = ({ onNavigateHome, darkMode }) => {
-  const [isEditing, setIsEditing] = useState(false);
-  const [currentNote, setCurrentNote] = useState<Note | null>(null);
-
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
-  
-  const notes = useLiveQuery(() => db.notes.orderBy('updatedAt').reverse().toArray(), []);
-
-  const handleNewNote = () => {
-    setCurrentNote(null);
-    setTitle('Nova Anotação');
-    setContent('');
-    setIsEditing(true);
-  };
-
-  const handleEditNote = (note: Note) => {
-    setCurrentNote(note);
-    setTitle(note.title);
-    setContent(note.content);
-    setIsEditing(true);
-  };
-
-  const handleSaveNote = async () => {
-    if (!title.trim()) {
-      alert('Por favor, insira um título.');
-      return;
-    }
-
-    const now = Date.now();
-    if (currentNote && currentNote.id) {
-      // Update
-      await db.notes.put({
-        ...currentNote,
-        title,
-        content,
-        updatedAt: now,
-      });
-    } else {
-      // Create
-      await db.notes.add({
-        title,
-        content,
-        createdAt: now,
-        updatedAt: now,
-      });
-    }
-    setIsEditing(false);
-    setCurrentNote(null);
-  };
-
-  const handleDeleteNote = async (id: number) => {
-    if (window.confirm('Tem certeza que deseja apagar esta anotação? A ação não pode ser desfeita.')) {
-      await db.notes.delete(id);
-    }
-  };
+  const {
+    notes,
+    isEditing,
+    title,
+    content,
+    setTitle,
+    setContent,
+    startNewNote,
+    editNote,
+    cancelEditing,
+    persistNote,
+    deleteNote,
+  } = useNotesController();
 
   const NoteItem: React.FC<{ note: Note }> = ({ note }) => (
     <div
-      onClick={() => handleEditNote(note)}
+      onClick={() => editNote(note)}
       className={`p-4 rounded-xl cursor-pointer transition-all duration-200 ${darkMode ? 'bg-gray-800 hover:bg-gray-700/80' : 'bg-white hover:bg-gray-50 shadow-sm border border-gray-100 dark:border-gray-700/50'}`}
     >
       <div className="flex justify-between items-start">
@@ -80,7 +37,12 @@ const NotesScreen: React.FC<NotesScreenProps> = ({ onNavigateHome, darkMode }) =
           </p>
         </div>
         <button
-          onClick={(e) => { e.stopPropagation(); handleDeleteNote(note.id!); }}
+          onClick={(e) => {
+            e.stopPropagation();
+            if (note.id && window.confirm('Tem certeza que deseja apagar esta anotação? A ação não pode ser desfeita.')) {
+              deleteNote(note.id);
+            }
+          }}
           className={`ml-2 p-2 rounded-full transition-colors flex-shrink-0 ${darkMode ? 'hover:bg-red-900/50' : 'hover:bg-red-100'}`}
           aria-label="Apagar anotação"
         >
@@ -98,11 +60,11 @@ const NotesScreen: React.FC<NotesScreenProps> = ({ onNavigateHome, darkMode }) =
       <div className={`min-h-screen flex flex-col transition-colors duration-300 ${darkMode ? 'bg-gray-900' : 'bg-gray-100'}`}>
         <header className={`${darkMode ? 'bg-gray-800/95' : 'bg-white/95'} backdrop-blur-lg sticky top-0 z-40 shadow-sm`}>
           <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
-            <button onClick={() => setIsEditing(false)} className="flex items-center gap-2 hover:opacity-70 transition-opacity">
+            <button onClick={cancelEditing} className="flex items-center gap-2 hover:opacity-70 transition-opacity">
               <IconChevronLeft className={`w-5 h-5 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`} />
               <span className={`font-semibold ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Anotações</span>
             </button>
-            <button onClick={handleSaveNote} className="bg-indigo-600 text-white font-semibold px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors">
+            <button onClick={persistNote} className="bg-indigo-600 text-white font-semibold px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors">
               Salvar
             </button>
           </div>
@@ -158,7 +120,7 @@ const NotesScreen: React.FC<NotesScreenProps> = ({ onNavigateHome, darkMode }) =
         )}
       </main>
       <button
-        onClick={handleNewNote}
+        onClick={startNewNote}
         className="fixed bottom-8 right-8 w-16 h-16 rounded-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-2xl flex items-center justify-center transition-transform hover:scale-110"
         aria-label="Criar nova anotação"
       >

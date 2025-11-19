@@ -1,4 +1,4 @@
-import type { BookDefinition, Chapter, Verse } from '../types';
+import type { BookDefinition, Chapter, Verse } from '@/domain/models/bible';
 
 interface ArcVerseRecord {
   book: string;
@@ -20,7 +20,7 @@ const BOOK_NAME_ALIASES: Record<string, string> = {
 };
 
 let remoteArcCache: ArcVerseRecord[] | null = null;
-const bibleChapterSources = import.meta.glob<string>('../data/*.json', {
+const bibleChapterSources = import.meta.glob<string>('@/data/*.json', {
   eager: true,
   query: '?raw',
   import: 'default',
@@ -115,7 +115,7 @@ function normalizeChapterList(bookId: number, rawChapters: Chapter[]): Chapter[]
 }
 
 async function loadLocalBookChapters(book: BookDefinition): Promise<Chapter[] | null> {
-  const sourceKey = `../data/${book.fileName}`;
+  const sourceKey = `@/data/${book.fileName}`;
   const rawContent = bibleChapterSources[sourceKey];
 
   if (!rawContent) {

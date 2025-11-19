@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import type { Verse } from '../types';
-import { IconCopy, IconHeart, IconFileText, IconShare2, IconCheck } from '../constants';
+import type { Verse } from '@/domain/models/bible';
+import { IconCopy, IconHeart, IconFileText, IconShare2, IconCheck } from '@/ui/icons/IconSet';
 
 interface VerseActionToolbarProps {
   verse: Verse;

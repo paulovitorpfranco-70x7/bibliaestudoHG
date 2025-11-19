@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { IconBookOpen, IconUser, IconLock, IconSparkles, IconRocket } from '../constants';
+import { IconBookOpen, IconUser, IconLock, IconSparkles, IconRocket } from '@/ui/icons/IconSet';
 
 interface LoginScreenProps {
   onLoginSuccess: () => void;
