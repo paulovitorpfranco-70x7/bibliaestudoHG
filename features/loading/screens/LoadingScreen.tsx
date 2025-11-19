@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { IconBookOpen } from '../constants';
+import { IconBookOpen } from '@/ui/icons/IconSet';
 
 interface LoadingScreenProps {
   status: 'initializing' | 'seeding';

@@ -1,8 +1,8 @@
 
-import React from 'react';
-import { useLiveQuery } from 'dexie-react-hooks';
-import { db } from '../services/database';
-import { IconX, IconVolume2, IconChevronRight, IconBookOpen } from '../constants';
+import React, { useMemo } from 'react';
+import { IconX, IconVolume2, IconChevronRight, IconBookOpen } from '@/ui/icons/IconSet';
+import { useLiveQuery } from '@/data/datasources/BibleDexieDatasource';
+import { useBibleRepository } from '@/shared/hooks/useBibleRepository';
 
 interface StrongsModalProps {
   strongCode: string;
@@ -11,7 +11,9 @@ interface StrongsModalProps {
 }
 
 const StrongsModal: React.FC<StrongsModalProps> = ({ strongCode, onClose, darkMode }) => {
-  const strongData = useLiveQuery(() => db.strongs.get(strongCode), [strongCode]);
+  const repository = useBibleRepository();
+  const strongQuery = useMemo(() => () => repository.searchStrongEntry(strongCode), [repository, strongCode]);
+  const strongData = useLiveQuery(strongQuery, [strongQuery]);
 
   if (!strongData) {
     return (

@@ -1,8 +1,7 @@
 
 import React from 'react';
-import { useLiveQuery } from 'dexie-react-hooks';
-import { db } from '../services/database';
-import { IconBookOpen, IconUser, IconMenu, IconSearch, IconSun, IconMoon, IconShare2, IconHeart, IconSparkles, IconCalendar, IconFileText } from '../constants';
+import { IconBookOpen, IconUser, IconMenu, IconSearch, IconSun, IconMoon, IconShare2, IconHeart, IconSparkles, IconCalendar, IconFileText } from '@/ui/icons/IconSet';
+import { useHomeMetrics } from '@/features/home/hooks/useHomeMetrics';
 
 interface HomeScreenProps {
   onNavigateToReader: () => void;
@@ -12,7 +11,7 @@ interface HomeScreenProps {
 }
 
 const HomeScreen: React.FC<HomeScreenProps> = ({ onNavigateToReader, onNavigateToNotes, darkMode, toggleTheme }) => {
-  const noteCount = useLiveQuery(() => db.notes.count(), []);
+  const { noteCount, loading } = useHomeMetrics();
 
   return (
     <div className={`min-h-screen transition-colors duration-300 ${darkMode ? 'bg-gray-900' : 'bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50'}`}>
@@ -110,7 +109,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ onNavigateToReader, onNavigateT
             </div>
             <h3 className={`text-xl font-bold mb-2 ${darkMode ? 'text-white' : 'text-gray-800'}`}>Minhas Anotações</h3>
             <p className={`${darkMode ? 'text-gray-400' : 'text-gray-600'} mb-3`}>
-              {noteCount !== undefined ? `${noteCount} anotaç${noteCount === 1 ? 'ão' : 'ões'}` : 'Carregando...'}
+              {loading ? 'Carregando...' : `${noteCount} anotaç${noteCount === 1 ? 'ão' : 'ões'}`}
             </p>
             <div className={`text-sm ${darkMode ? 'text-gray-500' : 'text-gray-500'}`}>Crie e gerencie seus estudos</div>
           </button>
